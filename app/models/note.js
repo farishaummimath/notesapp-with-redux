@@ -9,6 +9,7 @@ const noteSchema = new Schema({
     },
     description :{
         type : String,
+        required : true
     },
     createdAt : {
         type : Date,
@@ -19,11 +20,27 @@ const noteSchema = new Schema({
         ref : 'Category',
         required : true
     },
-    // img: {
-    //     type:Object,
-    //     required:true
-    // }
-    img: { data: Buffer, contentType: String}
+    user: {
+        type: Schema.Types.ObjectId,
+        ref : 'User'
+    },
+    pinned : {
+        type : Boolean,
+        default : false
+    },
+    photo : {
+        type : String
+    },
+    color : {
+        type: String
+    },
+    archived : {
+        type : Boolean
+    },
+    bin : {
+        type : Boolean
+    }
+    
 
     
 })

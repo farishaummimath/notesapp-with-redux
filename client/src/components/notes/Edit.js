@@ -1,54 +1,40 @@
 import React from 'react'
-import axios from 'axios'
+
+import {connect} from 'react-redux'
+
 import NoteForm from './Form'
+import { startEditNote } from '../../actions/note'
+
 
 class NoteEdit extends React.Component{
-    constructor() {
-        console.log('edit constructor')
-        super()
-        this.state = {
-            note : {}
-        }
-    }
-
-    handleSubmit = (FormData) =>{
-        axios.put(`http://localhost:3015/notes/${this.props.match.params.id}`,FormData)
-        .then(response => {
-            const note = response.data
-            console.log("note--",note)
-            this.props.history.push(`/notes/${note._id}`)
-        })
-        .catch(err=> alert(err))
-
-    }
-
-    componentDidMount(){
-        console.log('edit componentDidMount')
+    
+    handleSubmit = (formData) => {
         const id = this.props.match.params.id
-
-        console.log(id)
-        
-        axios.get(`http://localhost:3015/notes/${id}`)
-        .then(response =>{
-            const note = response.data
-            this.setState({note})
-        })
-        .catch(err=>{
-            console.log(err)
-            alert(err)})
+        console.log(formData)
+        const redirect = () => this.props.history.push('/notes')
+        this.props.dispatch(startEditNote(formData,id,redirect))
     }
+
 
     render(){
-        console.log('edit render')
-        return(
+        console.log('render edit')
+        return (
             <div>
-                <h2>Edit Note</h2>
-                {Object.keys(this.state.note).length}
-                {
-                    Object.keys(this.state.note).length !=0 && <NoteForm {...this.state.note} handleSubmit = {this.handleSubmit} />
-                }
-             </div>
+                {this.props.note && (
+                            <>
+                         {this.props.note.title && <NoteForm note = {this.props.note} title="Update" handleSubmit = {this.handleSubmit} />}
+                         </>
+                )}
+               
+            </div>
         )
     }
 }
-export default NoteEdit
+
+const mapStateToProps = (state,props) => {
+    const id = props.match.params.id
+    return {
+        note: state.notes.find(note => note._id == id)
+    }
+}
+export default connect(mapStateToProps)(NoteEdit)

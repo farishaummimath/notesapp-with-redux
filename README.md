@@ -2,6 +2,14 @@
 
 NotesApp is a full stack MERN web application that allows you to create note categories, and perform basic CRUD operations for notes with image upload.
 
+## Features
+    * Create,Update,List and Delete notes and categories
+    * Add image to notes
+    * Add Color to notes
+    * Pin and Unpin Notes
+    * Archive and Unarchive Notes
+    * Move notes to bin
+
 ##  Technologies Used
 
 * React

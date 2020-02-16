@@ -1,34 +1,31 @@
 import React from 'react'
 import NoteForm from './Form'
-import axios from 'axios'
+import {connect} from 'react-redux'
+
+import { startAddNote } from '../../actions/note'
 
 class NoteNew extends React.Component {
+
     
-    handleSubmit = (FormData) => {
-        axios.post('http://localhost:3015/notes',FormData,
-        {   headers: {
-            "Content-type": "multipart/form-data"
-        }
-        })
-        .then(response => {
-            if(response.data.hasOwnProperty('errors')){
-                alert(response.data.message)
-            } else {
-                this.props.history.push('/notes')
-            }
-        })
-        .catch(err=> alert(err))
+    handleSubmit = (formData) => {
+        console.log('New note',formData)
+        const redirect = () => this.props.history.push('/notes')
+        this.props.dispatch(startAddNote(formData,redirect))
 
     }
 
     render() {
         return (
-            <div> 
-                <h1>Add Note</h1>
-                <NoteForm handleSubmit ={this.handleSubmit}/>
-            </div>
+            <> 
+                <NoteForm handleSubmit ={this.handleSubmit} title="Add"/>
+            </>
            
         )
     }
 }
-export default NoteNew
+const mapStateToProps = (state) => {
+    return {
+        categories: state.categories
+    }
+}
+export default connect(mapStateToProps)(NoteNew)

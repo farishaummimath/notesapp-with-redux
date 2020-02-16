@@ -8,11 +8,12 @@ const app = express()// gives app objects
 const port = 3015
 
 app.use(express.json())
-app.use(cors())
 
 
 setupDB()
+app.use(express.static('public/uploads'))
 
+app.use(cors())
 
 
 app.get('/',(req,res) => {

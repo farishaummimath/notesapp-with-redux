@@ -1,57 +1,66 @@
 import React from 'react'
-import axios from 'axios'
 import {Link}  from 'react-router-dom'
+import {connect} from 'react-redux'
+import { startAddCategory, startRemoveCategory} from '../../actions/category'
+import CategoryForm from './Form'
+import { MDBListGroup, MDBListGroupItem, MDBContainer, MDBBtn } from "mdbreact";
 
-
-class CategoryList extends React.Component{
-    constructor(){
-        super()
-        this.state ={
-            categories : []
+class CategoryList extends React.Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            categories: []
         }
     }
-
-    componentDidMount(){
-        axios.get('http://localhost:3015/categories')
-        .then(response =>{
-            console.log(response)
-            const categories = response.data
-            this.setState({categories})
-        })
-        .catch(err => console.log(err))
-
-    }
-
-    handleRemove(id){
-        axios.delete(`http://localhost:3015/categories/${id}`)
-        .then(response=>{
-            console.log('Removed')
-            this.setState(prevState=>({
-                categories : prevState.categories.filter(category=> category._id !== response.data._id)
-            }))
-        })
-        .catch(err => alert(err))
-
-    }
     
-
-
+    handleRemove =(id)=> {
+        const confirmRemove = window.confirm('Are you sure you want to delete?')
+        if(confirmRemove){
+            this.props.dispatch(startRemoveCategory(id))
+        }
+    }
+    handleSubmit = (category) => {
+        this.props.dispatch(startAddCategory(category))
+    }
     render(){
+
+   
         return(
             <div>
+                <MDBContainer style ={{marginTop:'6rem'}}>
                 <h1>Listing Categories</h1>
-                <ul>
-                    {this.state.categories.map(category=>{
-                    return <li key ={category._id}><Link to ={`/categories/${category._id}`}>{category.name}</Link> <button onClick ={()=>{this.handleRemove(category._id)}}> REMOVE </button></li>
 
-                    })}
-                </ul>
-                <Link to='/categories/new'>Add Category</Link>
-            </div>
+                <MDBListGroup style={{ width: "50rem" }}>
+                    {this.props.categories.map(category=>{
+                        return <MDBListGroupItem key ={category._id}>
+                            <Link to ={`/categories/${category._id}`}>{category.name}</Link>
+                            <Link to ={`/categories/edit/${category._id}`}>
+                                <MDBBtn className="float-right"> EDIT </MDBBtn>
+                            </Link>
+                            <MDBBtn className="float-right" onClick ={()=>{this.handleRemove(category._id)}}> REMOVE </MDBBtn>
+                            </MDBListGroupItem>
+
+                        })}
+                </MDBListGroup>
+                <h3>Add Category</h3>
+
+                <CategoryForm handleSubmit={this.handleSubmit}/>
+            </MDBContainer>
+            </div>   
+            
+
             
         )
     }
 
+
+}
+const mapStateToProps = (state) => {
+    return {
+        categories: state.categories,
+        user: state.user
+    }
 }
 
-export default CategoryList
+
+export default connect(mapStateToProps)(CategoryList)
