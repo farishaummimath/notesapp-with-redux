@@ -24,6 +24,7 @@ NotesApp is a full stack MERN web application that allows you to create note cat
     npx create-react-app client
     npm install react-router-dom axios 
     ```
+    * styled using  https://mdbootstrap.com/
 2. BACK_END
     * express cors concurrently
     ```bash
