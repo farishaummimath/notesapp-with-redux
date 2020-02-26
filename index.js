@@ -1,13 +1,12 @@
 const express = require('express')
-const fs = require('fs')
 const cors = require('cors')
 // npm install mongoose
 const setupDB = require('./config/database')
 const router = require('./config/routes')
 const app = express()// gives app objects
-const port = 3015
-
+const port = process.env.PORT || 3036
 app.use(express.json())
+const path = require('path') 
 
 
 setupDB()
@@ -26,6 +25,10 @@ app.get('/',(req,res) => {
 })
 
 app.use('/', router )// middleware use function
+app.use(express.static(path.join(__dirname,"client/build"))) 
+app.get("*",(req,res) => { 
+    res.sendFile(path.join(__dirname + "/client/build/index.html")) 
+}) 
 
 app.listen(port,()=>{
     console.log("Listening to port ", port)
