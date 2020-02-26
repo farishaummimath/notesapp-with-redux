@@ -15,14 +15,14 @@ app.use(express.static('public/uploads'))
 app.use(cors())
 
 
-app.get('/',(req,res) => {
-    //res.send('Welcome to website')
-    // giving json response
-    res.json({
-        notice: 'welcome to website'
-    })
+// app.get('/',(req,res) => {
+//     //res.send('Welcome to website')
+//     // giving json response
+//     res.json({
+//         notice: 'welcome to website'
+//     })
 
-})
+// })
 
 app.use('/', router )// middleware use function
 app.use(express.static(path.join(__dirname,"client/build"))) 
