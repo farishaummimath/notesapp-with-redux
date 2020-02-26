@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "../config/axios"
 export const setNote = (notes) => {
     return {
         type: 'SET_NOTE',
@@ -8,7 +8,7 @@ export const setNote = (notes) => {
 
 export const startSetNotes = () => {
     return (dispatch) => {
-        axios.get('http://localhost:3015/notes',{
+        axios.get('/api/notes',{
             headers: {
                 'x-auth': localStorage.getItem('authToken')
             }
@@ -34,7 +34,7 @@ export const addNote = (note) => {
 export const startAddNote = (note,redirect) => {
     return (dispatch) => {
         console.log("Form",note)
-        axios.post('http://localhost:3015/notes',note,{
+        axios.post('/api/notes',note,{
             headers: {
                 'x-auth': localStorage.getItem('authToken'),
                 'content-type' : 'multipart/form-data'
@@ -63,7 +63,7 @@ export const removeNote = (note) => {
 
 export const startRemoveNote = (id) => {
     return (dispatch) => {
-        axios.delete(`http://localhost:3015/notes/${id}`,{
+        axios.delete(`/api/notes/${id}`,{
             headers: {
                 'x-auth': localStorage.getItem('authToken')
             }
@@ -89,7 +89,7 @@ export const editNote = (note) => {
 export const startEditNote = (note,id,redirect) => {
     return (dispatch) => {
         console.log('edit action',note)
-        axios.put(`http://localhost:3015/notes/${id}`,note, {
+        axios.put(`/api/notes/${id}`,note, {
             headers: {
                 'x-auth': localStorage.getItem('authToken')
             }
@@ -140,7 +140,7 @@ export const startPinNote = (note) => {
     note.pinned = !note.pinned
     console.log(note)
     return dispatch => {
-        axios.put(`http://localhost:3015/notes/${note._id}`, note, {
+        axios.put(`/api/notes/${note._id}`, note, {
             headers : {
                 'x-auth' : localStorage.getItem('authToken')
             }
@@ -155,7 +155,7 @@ export const startPinNote = (note) => {
 export const startBinNote = (note) => {
     note.bin = !note.bin
     return dispatch => {
-        axios.put(`http://localhost:3015/notes/${note._id}`, note, {
+        axios.put(`/api/notes/${note._id}`, note, {
             headers : {
                 'x-auth' : localStorage.getItem('authToken')
             }
@@ -171,7 +171,7 @@ export const startBinNote = (note) => {
 export const startArchiveNote = (note) => {
     note.archived = !note.archived
     return dispatch => {
-        axios.put(`http://localhost:3015/notes/${note._id}`, note, {
+        axios.put(`/api/notes/${note._id}`, note, {
             headers : {
                 'x-auth' : localStorage.getItem('authToken')
             }

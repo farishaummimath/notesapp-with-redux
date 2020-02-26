@@ -1,4 +1,5 @@
-import axios from "axios"
+import axios from "../config/axios"
+
 import { updateNoteCategory } from "./note"
 
 export const setCategory = (categories) => {
@@ -10,7 +11,7 @@ export const setCategory = (categories) => {
 
 export const startSetCategories = () => {
     return (dispatch) => {
-        axios.get('http://localhost:3015/categories',{
+        axios.get('/api/categories',{
             headers: {
                 'x-auth': localStorage.getItem('authToken')
             }
@@ -35,7 +36,7 @@ export const addCategory = (category) => {
 
 export const startAddCategory = (category) => {
     return (dispatch) => {
-        axios.post('http://localhost:3015/categories',category,{
+        axios.post('/api/categories',category,{
             headers: {
                 'x-auth': localStorage.getItem('authToken')
             }
@@ -61,7 +62,7 @@ export const removeCategory = (category) => {
 
 export const startRemoveCategory = (id) => {
     return (dispatch) => {
-        axios.delete(`http://localhost:3015/categories/${id}`,{
+        axios.delete(`/api/categories/${id}`,{
             headers: {
                 'x-auth': localStorage.getItem('authToken')
             }
@@ -86,7 +87,7 @@ export const editCategory = (category) => {
 
 export const startEditCategory = (category,id,redirect) => {
     return (dispatch) => {
-        axios.put(`http://localhost:3015/categories/${id}`,category,{
+        axios.put(`/api/categories/${id}`,category,{
             headers: {
                 'x-auth': localStorage.getItem('authToken')
             }

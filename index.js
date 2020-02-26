@@ -24,7 +24,7 @@ app.use(cors())
 
 // })
 
-app.use('/', router )// middleware use function
+app.use('/api', router )// middleware use function
 app.use(express.static(path.join(__dirname,"client/build"))) 
 app.get("*",(req,res) => { 
     res.sendFile(path.join(__dirname + "/client/build/index.html")) 
