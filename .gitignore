@@ -28,4 +28,4 @@ coverage
 node_modules
 
 # Image files
-uploads
+#uploads
